@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy | Where's Amy?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      line-height: 1.6;
+      background-color: #fdfdfd;
+      color: #333;
+    }
+    h1, h2 {
+      color: #222;
+    }
+    h1 {
+      margin-bottom: 0.2rem;
+    }
+    hr {
+      margin: 2rem 0;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Privacy Policy for Where’s Amy?</h1>
+  <p><strong>Effective Date:</strong> 22 June 2025</p>
+
+  <p><em>Where’s Amy?</em> (“we”, “our”, or “us”) is committed to protecting your privacy. This policy explains how we collect, use, and store your personal information — especially your location — when you use the <em>Where’s Amy?</em> mobile app.</p>
+
+  <hr />
+
+  <h2>🔐 What We Collect</h2>
+  <ul>
+    <li><strong>Location Data:</strong> We collect your precise location when you choose to share it with your group. This helps power live tracking, directional navigation, and ping responses.</li>
+    <li><strong>User Info:</strong> We collect your display name and email address (from sign-in providers like Google) to help you identify yourself to your group.</li>
+    <li><strong>Usage Data:</strong> We collect anonymised app usage statistics to help improve performance and user experience.</li>
+  </ul>
+
+  <hr />
+
+  <h2>🧭 How Your Location Is Used</h2>
+  <ul>
+    <li>Only shared with your group members, and only when you allow it</li>
+    <li>Never broadcasted publicly</li>
+    <li>Stored securely in our backend to enable location history, pings, and compass directions</li>
+    <li>Not used for advertising or sold to third parties</li>
+  </ul>
+  <p>You can disable location sharing at any time via app settings.</p>
+
+  <hr />
+
+  <h2>🛡️ Data Security</h2>
+  <p>We use Firebase to store and manage user data. Firebase applies industry-standard security practices to keep your data safe. Access to location data is restricted to authenticated users within your group.</p>
+
+  <hr />
+
+  <h2>🧍‍♀️ Your Rights</h2>
+  <ul>
+    <li>You can request to delete your data at any time by contacting us at <a href="mailto:moneynomadapp@gmail.com">moneynomadapp@gmail.com</a></li>
+    <li>You can opt out of location sharing from within the app</li>
+    <li>We do not knowingly collect data from users under the age of 13</li>
+  </ul>
+
+  <hr />
+
+  <h2>📬 Contact Us</h2>
+  <p>If you have any questions about this Privacy Policy or our use of your data, email:</p>
+  <p><a href="mailto:moneynomadapp@gmail.com">moneynomadapp@gmail.com</a></p>
+
+</body>
+</html>
