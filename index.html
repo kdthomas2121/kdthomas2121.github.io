@@ -51,12 +51,16 @@
         }
 
         .app-card {
+            display: block;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             padding: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
         }
 
         .app-card:hover {
@@ -114,6 +118,8 @@
             font-size: 0.85rem;
             font-weight: 500;
             transition: background 0.2s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .store-link:hover {
@@ -123,19 +129,6 @@
         .store-link svg {
             width: 20px;
             height: 20px;
-        }
-
-        .learn-more {
-            display: inline-block;
-            margin-top: 15px;
-            color: #e94560;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .learn-more:hover {
-            text-decoration: underline;
         }
 
         footer {
@@ -180,7 +173,7 @@
 
         <div class="apps-grid">
             <!-- MoneyNomad -->
-            <div class="app-card">
+            <a href="moneynomad.html" class="app-card">
                 <div class="app-header">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d0/c8/31/d0c8314f-1d6f-1cf5-b2bb-d81cf9f9c583/AppIcon-0-0-1x_U007epad-0-1-85-220.png/200x200bb.png" alt="MoneyNomad" class="app-icon">
                     <div class="app-title">
@@ -201,11 +194,10 @@
                         Google Play
                     </a>
                 </div>
-                <a href="moneynomad.html" class="learn-more">Learn more →</a>
-            </div>
+            </a>
 
             <!-- Where's Amy? -->
-            <div class="app-card">
+            <a href="wheres-amy.html" class="app-card">
                 <div class="app-header">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/b1/cc/d1/b1ccd1ad-176f-fba2-baa3-b81e03a55183/AppIcon-0-0-1x_U007epad-0-1-85-220.png/200x200bb.png" alt="Where's Amy?" class="app-icon">
                     <div class="app-title">
@@ -226,11 +218,10 @@
                         Google Play
                     </a>
                 </div>
-                <a href="wheres-amy.html" class="learn-more">Learn more →</a>
-            </div>
+            </a>
 
             <!-- KDTIVI -->
-            <div class="app-card">
+            <a href="kdtivi.html" class="app-card">
                 <div class="app-header">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/55/6e/14/556e14a1-142e-b690-c872-5f232c99c9b3/AppIcon-0-0-1x_U007epad-0-1-sRGB-85-220.png/200x200bb.png" alt="KDTIVI" class="app-icon">
                     <div class="app-title">
@@ -251,8 +242,7 @@
                         Apple TV
                     </a>
                 </div>
-                <a href="kdtivi.html" class="learn-more">Learn more →</a>
-            </div>
+            </a>
         </div>
 
         <footer>
