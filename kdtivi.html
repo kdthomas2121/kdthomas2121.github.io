@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KDTIVI - Sleek IPTV & Plex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .app-hero {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-info h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .app-info .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .store-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .store-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .store-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .store-link svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .description h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #e94560;
+        }
+
+        .description p {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #a0a0a0;
+        }
+
+        .feature::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #e94560;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .coming-soon {
+            background: rgba(233, 69, 96, 0.1);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .coming-soon h3 {
+            color: #e94560;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .coming-soon p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .disclaimer p {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .screenshots {
+            margin-bottom: 40px;
+        }
+
+        .screenshots h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #e94560;
+        }
+
+        .screenshot-grid {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .screenshot-grid img {
+            height: 400px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+
+        .screenshot-grid img.tv-screenshot {
+            height: 250px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+
+        footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .app-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .app-info h1 {
+                font-size: 2rem;
+            }
+
+            .store-links {
+                justify-content: center;
+            }
+
+            .screenshot-grid img {
+                height: 300px;
+            }
+
+            .screenshot-grid img.tv-screenshot {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Apps
+        </a>
+
+        <div class="app-hero">
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/55/6e/14/556e14a1-142e-b690-c872-5f232c99c9b3/AppIcon-0-0-1x_U007epad-0-1-sRGB-85-220.png/200x200bb.png" alt="KDTIVI" class="app-icon">
+            <div class="app-info">
+                <h1>KDTIVI</h1>
+                <p class="subtitle">Sleek IPTV & Plex</p>
+                <div class="store-links">
+                    <a href="https://apps.apple.com/us/app/kdtivi-sleek-iptv-and-plex/id6754769190" class="store-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        App Store
+                    </a>
+                    <a href="https://apps.apple.com/us/app/kdtivi-sleek-iptv-and-plex/id6754769190?platform=tv" class="store-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21,17H3V5H21M21,3H3A2,2 0 0,0 1,5V17A2,2 0 0,0 3,19H8V21H16V19H21A2,2 0 0,0 23,17V5A2,2 0 0,0 21,3Z"/></svg>
+                        Apple TV
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <h2>About KDTIVI</h2>
+            <p>
+                KDTIVI is a modern media player built for IPTV and Plex, emphasizing speed, simplicity, and reliability. Whether you're streaming live TV or browsing your Plex library, KDTIVI provides a clean, intuitive interface that gets out of your way.
+            </p>
+            <p>
+                The app supports M3U and Xtream Codes playlist formats, allowing you to easily organize and access your content. With multiple player options, catch-up support, and full EPG integration, KDTIVI delivers a premium viewing experience on both iPhone and Apple TV.
+            </p>
+            <div class="features">
+                <div class="feature">M3U & Xtream Codes support</div>
+                <div class="feature">Multiple playlist management</div>
+                <div class="feature">Full Plex integration</div>
+                <div class="feature">Multiple player options</div>
+                <div class="feature">Catch-up support (beta)</div>
+                <div class="feature">VOD auto-extraction</div>
+                <div class="feature">EPG integration</div>
+                <div class="feature">Minimal, clean interface</div>
+            </div>
+        </div>
+
+        <div class="coming-soon">
+            <h3>Coming Soon</h3>
+            <p>Additional player choices, downloads, offline mode, and iOS/iPadOS releases.</p>
+        </div>
+
+        <div class="screenshots">
+            <h2>iPhone Screenshots</h2>
+            <div class="screenshot-grid">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/3f/ab/7b3fab56-6cfd-3a1e-3eed-57482ce7f358/newone.png/400x0w.webp" alt="KDTIVI Screenshot 1">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/13/c3/b0/13c3b023-aaea-1824-bb2e-5e5338acb332/Hotpot_1.png/400x0w.webp" alt="KDTIVI Screenshot 2">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/72/9c/8b/729c8b63-70ea-68c9-f7dc-3debe55c975a/Hotpot_3.png/400x0w.webp" alt="KDTIVI Screenshot 3">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/9f/0c/36/9f0c36fc-fbe7-9611-8a84-bbd999b4b4c5/Hotpot_2.png/400x0w.webp" alt="KDTIVI Screenshot 4">
+            </div>
+        </div>
+
+        <div class="screenshots">
+            <h2>Apple TV Screenshots</h2>
+            <div class="screenshot-grid">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3f/4d/f2/3f4df2e2-e137-47ee-fac4-55f93fa44066/Simulator_Screenshot_-_Apple_TV_4K_3rd_generation_2025-10-31.png/800x0w.webp" alt="KDTIVI Apple TV Screenshot 1" class="tv-screenshot">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a6/b2/d8/a6b2d886-48e0-9973-2321-2f9972a6e71b/Simulator_Screenshot_-_Apple_TV_4K.png/800x0w.webp" alt="KDTIVI Apple TV Screenshot 2" class="tv-screenshot">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/20/6c/97/206c97ca-4f19-5e51-a875-adb16de2767d/tvoverlay.png/800x0w.webp" alt="KDTIVI Apple TV Screenshot 3" class="tv-screenshot">
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p>KDTIVI is a media player application. It does not provide, host, or include any content or playlists. Users must supply their own legally sourced material.</p>
+        </div>
+
+        <footer>
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyNomad - Currency Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .app-hero {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-info h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .app-info .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .store-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .store-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .store-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .store-link svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .description h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #e94560;
+        }
+
+        .description p {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #a0a0a0;
+        }
+
+        .feature::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #e94560;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .screenshots {
+            margin-bottom: 40px;
+        }
+
+        .screenshots h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #e94560;
+        }
+
+        .screenshot-grid {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .screenshot-grid img {
+            height: 400px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+
+        footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .app-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .app-info h1 {
+                font-size: 2rem;
+            }
+
+            .store-links {
+                justify-content: center;
+            }
+
+            .screenshot-grid img {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Apps
+        </a>
+
+        <div class="app-hero">
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d0/c8/31/d0c8314f-1d6f-1cf5-b2bb-d81cf9f9c583/AppIcon-0-0-1x_U007epad-0-1-85-220.png/200x200bb.png" alt="MoneyNomad" class="app-icon">
+            <div class="app-info">
+                <h1>MoneyNomad</h1>
+                <p class="subtitle">Currency Converter</p>
+                <div class="store-links">
+                    <a href="https://apps.apple.com/us/app/moneynomad-currency-converter/id6443705034" class="store-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        App Store
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.kdt.moneynomad" class="store-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+                        Google Play
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <h2>About MoneyNomad</h2>
+            <p>
+                MoneyNomad uses your location to automatically detect the currency of the country you're in, enabling instant conversion to your home currency. No more searching through endless currency lists or trying to remember three-digit currency codes for every destination.
+            </p>
+            <p>
+                The app works completely offline and is ready the moment you open it. Whether you're traveling abroad, shopping online from international stores, or just curious about exchange rates, MoneyNomad makes currency conversion effortless.
+            </p>
+            <div class="features">
+                <div class="feature">Modern, minimalist interface</div>
+                <div class="feature">Offline functionality</div>
+                <div class="feature">Widget support</div>
+                <div class="feature">Countries visited tracker</div>
+                <div class="feature">Instant conversions</div>
+                <div class="feature">Common currency table</div>
+            </div>
+        </div>
+
+        <div class="screenshots">
+            <h2>Screenshots</h2>
+            <div class="screenshot-grid">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/4b/9f/0b4b9f4f-b5f9-94c8-6ef0-93de1debef72/0de6cdd8-32b0-4171-bfa7-84efb62f7941_Front_page_-_11px.jpg/400x0w.webp" alt="MoneyNomad Screenshot 1">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/4a/04/2a/4a042aed-95c9-6c05-e350-7815d030a491/758f84e5-7b95-4b13-8e85-8038dbd9e90e_Front_page_-_21px.jpg/400x0w.webp" alt="MoneyNomad Screenshot 2">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/3a/11/88/3a11880e-38c4-7a7f-7bf7-19499918cb8e/f8ee3e61-bda2-4fad-b772-51ce1a404659_Widget1px.jpg/400x0w.webp" alt="MoneyNomad Widget">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/13/a8/27/13a827d1-66cb-622b-3716-f571dfb08c3f/067b3b0a-d51b-4859-b038-2eb5fea82556_Offline_support1px.jpg/400x0w.webp" alt="MoneyNomad Offline Support">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/7e/4c/ce/7e4ccefc-9616-fd0e-c003-7f6ac9338f16/1bd18896-d7a5-43d7-a89b-19bfefa575a3_Travel_page1px.jpg/400x0w.webp" alt="MoneyNomad Travel Page">
+            </div>
+        </div>
+
+        <footer>
+            <a href="moneynomad-privacy.html">Privacy Policy</a>
+        </footer>
+    </div>
+</body>
+</html>
