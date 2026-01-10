@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Add Playlist | KDTIVI</title>
+    <meta name="description" content="Add your IPTV playlist to KDTIVI on Apple TV. Enter your pairing code and playlist details to sync instantly.">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d0d14;
+            --bg-secondary: #16161f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-input: rgba(255, 255, 255, 0.06);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-tertiary: rgba(255, 255, 255, 0.4);
+            --accent: #4ecdc4;
+            --accent-glow: rgba(78, 205, 196, 0.3);
+            --error: #ff6b6b;
+            --success: #4ecdc4;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(78, 205, 196, 0.5);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* Animated background */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(78, 205, 196, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(233, 69, 96, 0.1), transparent),
+                linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 24px 20px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Steps indicator */
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .step-dot.completed {
+            background: var(--accent);
+        }
+
+        /* Form card */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 28px 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            flex: 1;
+        }
+
+        /* Step sections */
+        .step-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .step-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .step-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Pairing code input */
+        .pairing-input-container {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .pairing-char {
+            width: 48px;
+            height: 60px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            caret-color: var(--accent);
+        }
+
+        .pairing-char:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .pairing-char.filled {
+            border-color: var(--accent);
+        }
+
+        .pairing-separator {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+
+        /* Form groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(78, 205, 196, 0.03);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 44px;
+        }
+
+        .form-group select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Playlist type toggle */
+        .type-toggle {
+            display: flex;
+            gap: 8px;
+            padding: 4px;
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .type-option {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .type-option.active {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        /* Xtream fields container */
+        .xtream-fields {
+            display: none;
+        }
+
+        .xtream-fields.active {
+            display: block;
+        }
+
+        .m3u-fields {
+            display: none;
+        }
+
+        .m3u-fields.active {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #3db9b1 100%);
+            color: #000;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-back {
+            width: auto;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error message */
+        .error-message {
+            display: none;
+            padding: 12px 16px;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: var(--radius-md);
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-bottom: 20px;
+            animation: shake 0.4s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Success state */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--accent);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .success-screen h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .success-screen p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding-top: 24px;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .pairing-char {
+                width: 42px;
+                height: 54px;
+                font-size: 1.25rem;
+            }
+
+            .form-card {
+                padding: 24px 20px;
+            }
+        }
+
+        /* Connection status indicator */
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+            color: var(--accent);
+        }
+
+        .connection-status .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Helper text */
+        .helper-text {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-top: 6px;
+        }
+
+        /* Info box */
+        .info-box {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            background: rgba(78, 205, 196, 0.05);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .info-box svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <div class="container">
+        <header class="header">
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/55/6e/14/556e14a1-142e-b690-c872-5f232c99c9b3/AppIcon-0-0-1x_U007epad-0-1-sRGB-85-220.png/200x200bb.png" alt="KDTIVI" class="logo">
+            <h1>Add Playlist</h1>
+            <p>Connect your IPTV playlist to Apple TV</p>
+        </header>
+
+        <div class="steps">
+            <div class="step-dot active" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+        </div>
+
+        <main class="form-card">
+            <!-- Step 1: Pairing Code -->
+            <section id="step1" class="step-section active">
+                <h2 class="step-title">Enter Pairing Code</h2>
+                <p class="step-description">Enter the 6-character code shown on your Apple TV</p>
+
+                <div class="info-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    <p>Open KDTIVI on your Apple TV and look for the pairing code on the onboarding screen.</p>
+                </div>
+
+                <div class="pairing-input-container">
+                    <input type="text" class="pairing-char" maxlength="1" data-index="0" inputmode="text" autocomplete="off" autocapitalize="characters">
+                    <input type="text" class="pairing-char" maxlength="1" data-index="1" inputmode="text" autocomplete="off" autocapitalize="characters">
+                    <input type="text" class="pairing-char" maxlength="1" data-index="2" inputmode="text" autocomplete="off" autocapitalize="characters">
+                    <span class="pairing-separator">-</span>
+                    <input type="text" class="pairing-char" maxlength="1" data-index="3" inputmode="text" autocomplete="off" autocapitalize="characters">
+                    <input type="text" class="pairing-char" maxlength="1" data-index="4" inputmode="text" autocomplete="off" autocapitalize="characters">
+                    <input type="text" class="pairing-char" maxlength="1" data-index="5" inputmode="text" autocomplete="off" autocapitalize="characters">
+                </div>
+
+                <div id="pairingError" class="error-message"></div>
+
+                <button id="verifyCodeBtn" class="btn btn-primary" disabled>
+                    <span class="btn-text">Verify Code</span>
+                    <span class="spinner" style="display: none;"></span>
+                </button>
+            </section>
+
+            <!-- Step 2: Playlist Details -->
+            <section id="step2" class="step-section">
+                <button id="backToStep1" class="btn btn-secondary btn-back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back
+                </button>
+
+                <h2 class="step-title">Playlist Details</h2>
+                <p class="step-description">Enter your IPTV playlist information</p>
+
+                <div class="connection-status">
+                    <span class="pulse"></span>
+                    Connected to Apple TV
+                </div>
+
+                <div class="error-message" id="playlistError"></div>
+
+                <div class="form-group">
+                    <label for="playlistName">Playlist Name</label>
+                    <input type="text" id="playlistName" placeholder="My IPTV Playlist" autocomplete="off">
+                </div>
+
+                <div class="type-toggle">
+                    <button class="type-option active" data-type="m3u">M3U URL</button>
+                    <button class="type-option" data-type="xtream">Xtream Codes</button>
+                </div>
+
+                <!-- M3U Fields -->
+                <div class="m3u-fields active">
+                    <div class="form-group">
+                        <label for="m3uUrl">M3U URL</label>
+                        <input type="url" id="m3uUrl" placeholder="https://example.com/playlist.m3u" autocomplete="off">
+                        <p class="helper-text">The direct link to your M3U or M3U8 playlist file</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="epgUrl">EPG URL (Optional)</label>
+                        <input type="url" id="epgUrl" placeholder="https://example.com/epg.xml" autocomplete="off">
+                        <p class="helper-text">XML TV guide for channel schedules</p>
+                    </div>
+                </div>
+
+                <!-- Xtream Fields -->
+                <div class="xtream-fields">
+                    <div class="form-group">
+                        <label for="serverUrl">Server URL</label>
+                        <input type="url" id="serverUrl" placeholder="http://example.com:8080" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" autocomplete="off">
+                    </div>
+                </div>
+
+                <button id="submitPlaylistBtn" class="btn btn-primary" disabled>
+                    <span class="btn-text">Add Playlist</span>
+                    <span class="spinner" style="display: none;"></span>
+                </button>
+            </section>
+
+            <!-- Step 3: Success -->
+            <section id="step3" class="step-section">
+                <div class="success-screen active">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <h2>Playlist Added!</h2>
+                    <p>Your playlist is being loaded on your Apple TV. This may take a moment depending on the size of your playlist.</p>
+                    <button id="addAnotherBtn" class="btn btn-secondary">Add Another Playlist</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <a href="privacy-policy.html">Privacy Policy</a> · <a href="support.html">Support</a>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // ============================================
+        // FIREBASE CONFIGURATION
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDU59Dkn-z6qbJNx1vOq22x268CDf6srrU",
+            authDomain: "kdtv-pairing.firebaseapp.com",
+            databaseURL: "https://kdtv-pairing-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "kdtv-pairing",
+            storageBucket: "kdtv-pairing.firebasestorage.app",
+            messagingSenderId: "1077517669182",
+            appId: "1:1077517669182:web:28e168566072092049126f"
+        };
+        // ============================================
+
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, get, set, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // State
+        let currentStep = 1;
+        let pairingCode = '';
+        let playlistType = 'm3u';
+
+        // DOM Elements
+        const pairingInputs = document.querySelectorAll('.pairing-char');
+        const verifyBtn = document.getElementById('verifyCodeBtn');
+        const submitBtn = document.getElementById('submitPlaylistBtn');
+        const backBtn = document.getElementById('backToStep1');
+        const addAnotherBtn = document.getElementById('addAnotherBtn');
+        const typeButtons = document.querySelectorAll('.type-option');
+        const stepDots = document.querySelectorAll('.step-dot');
+
+        // Pairing code input handling
+        pairingInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                e.target.value = value;
+                
+                if (value) {
+                    e.target.classList.add('filled');
+                    // Move to next input
+                    if (index < 5) {
+                        pairingInputs[index + 1].focus();
+                    }
+                } else {
+                    e.target.classList.remove('filled');
+                }
+                
+                updatePairingCode();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                // Handle backspace
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    pairingInputs[index - 1].focus();
+                }
+                // Handle paste
+                if (e.key === 'v' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    navigator.clipboard.readText().then(text => {
+                        const cleanText = text.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+                        cleanText.split('').forEach((char, i) => {
+                            if (pairingInputs[i]) {
+                                pairingInputs[i].value = char;
+                                pairingInputs[i].classList.add('filled');
+                            }
+                        });
+                        updatePairingCode();
+                        if (cleanText.length === 6) {
+                            pairingInputs[5].focus();
+                        } else if (cleanText.length > 0) {
+                            pairingInputs[cleanText.length].focus();
+                        }
+                    });
+                }
+            });
+
+            input.addEventListener('focus', () => {
+                e.target.select();
+            });
+        });
+
+        function updatePairingCode() {
+            pairingCode = Array.from(pairingInputs).map(i => i.value).join('');
+            verifyBtn.disabled = pairingCode.length !== 6;
+        }
+
+        // Verify pairing code
+        verifyBtn.addEventListener('click', async () => {
+            if (pairingCode.length !== 6) return;
+
+            setLoading(verifyBtn, true);
+            hideError('pairingError');
+
+            try {
+                const codeRef = ref(database, `pairing_codes/${pairingCode}`);
+                const snapshot = await get(codeRef);
+
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    
+                    // Check if code has expired (10 minutes)
+                    const createdAt = new Date(data.createdAt);
+                    const now = new Date();
+                    const diffMinutes = (now - createdAt) / (1000 * 60);
+                    
+                    if (diffMinutes > 10) {
+                        showError('pairingError', 'This code has expired. Please generate a new code on your Apple TV.');
+                        return;
+                    }
+
+                    // Check if playlist already submitted
+                    if (data.playlist) {
+                        showError('pairingError', 'A playlist has already been submitted with this code. Please generate a new code on your Apple TV.');
+                        return;
+                    }
+
+                    // Valid code - go to step 2
+                    goToStep(2);
+                } else {
+                    showError('pairingError', 'Invalid code. Please check the code on your Apple TV and try again.');
+                }
+            } catch (error) {
+                console.error('Error verifying code:', error);
+                showError('pairingError', 'Unable to verify code. Please check your connection and try again.');
+            } finally {
+                setLoading(verifyBtn, false);
+            }
+        });
+
+        // Playlist type toggle
+        typeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                playlistType = btn.dataset.type;
+
+                document.querySelector('.m3u-fields').classList.toggle('active', playlistType === 'm3u');
+                document.querySelector('.xtream-fields').classList.toggle('active', playlistType === 'xtream');
+                
+                validatePlaylistForm();
+            });
+        });
+
+        // Form validation
+        const formInputs = ['playlistName', 'm3uUrl', 'epgUrl', 'serverUrl', 'username', 'password'];
+        formInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', validatePlaylistForm);
+        });
+
+        function validatePlaylistForm() {
+            const name = document.getElementById('playlistName').value.trim();
+            let isValid = name.length > 0;
+
+            if (playlistType === 'm3u') {
+                const url = document.getElementById('m3uUrl').value.trim();
+                isValid = isValid && isValidUrl(url);
+            } else {
+                const server = document.getElementById('serverUrl').value.trim();
+                const user = document.getElementById('username').value.trim();
+                const pass = document.getElementById('password').value.trim();
+                isValid = isValid && isValidUrl(server) && user.length > 0 && pass.length > 0;
+            }
+
+            submitBtn.disabled = !isValid;
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Submit playlist
+        submitBtn.addEventListener('click', async () => {
+            if (submitBtn.disabled) return;
+
+            setLoading(submitBtn, true);
+            hideError('playlistError');
+
+            const playlistData = {
+                name: document.getElementById('playlistName').value.trim(),
+                type: playlistType,
+                submittedAt: new Date().toISOString()
+            };
+
+            if (playlistType === 'm3u') {
+                playlistData.m3uUrl = document.getElementById('m3uUrl').value.trim();
+                const epgUrl = document.getElementById('epgUrl').value.trim();
+                if (epgUrl) {
+                    playlistData.epgUrl = epgUrl;
+                }
+            } else {
+                playlistData.serverUrl = document.getElementById('serverUrl').value.trim();
+                playlistData.username = document.getElementById('username').value.trim();
+                playlistData.password = document.getElementById('password').value.trim();
+            }
+
+            try {
+                const codeRef = ref(database, `pairing_codes/${pairingCode}`);
+                
+                // First verify the code still exists and hasn't been used
+                const snapshot = await get(codeRef);
+                if (!snapshot.exists()) {
+                    showError('playlistError', 'Pairing code no longer valid. Please start over.');
+                    return;
+                }
+
+                const data = snapshot.val();
+                if (data.playlist) {
+                    showError('playlistError', 'A playlist has already been added with this code.');
+                    return;
+                }
+
+                // Update with playlist data
+                await set(codeRef, {
+                    ...data,
+                    playlist: playlistData
+                });
+
+                // Success!
+                goToStep(3);
+
+            } catch (error) {
+                console.error('Error submitting playlist:', error);
+                showError('playlistError', 'Failed to add playlist. Please try again.');
+            } finally {
+                setLoading(submitBtn, false);
+            }
+        });
+
+        // Navigation
+        backBtn.addEventListener('click', () => goToStep(1));
+        
+        addAnotherBtn.addEventListener('click', () => {
+            // Reset form
+            pairingInputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('filled');
+            });
+            pairingCode = '';
+            document.getElementById('playlistName').value = '';
+            document.getElementById('m3uUrl').value = '';
+            document.getElementById('epgUrl').value = '';
+            document.getElementById('serverUrl').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            verifyBtn.disabled = true;
+            submitBtn.disabled = true;
+            
+            goToStep(1);
+            pairingInputs[0].focus();
+        });
+
+        function goToStep(step) {
+            currentStep = step;
+            
+            // Update sections
+            document.querySelectorAll('.step-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`step${step}`).classList.add('active');
+
+            // Update dots
+            stepDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index + 1 === step) {
+                    dot.classList.add('active');
+                } else if (index + 1 < step) {
+                    dot.classList.add('completed');
+                }
+            });
+        }
+
+        // Helpers
+        function setLoading(button, loading) {
+            const text = button.querySelector('.btn-text');
+            const spinner = button.querySelector('.spinner');
+            
+            if (loading) {
+                text.style.display = 'none';
+                spinner.style.display = 'block';
+                button.disabled = true;
+            } else {
+                text.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        }
+
+        function showError(id, message) {
+            const el = document.getElementById(id);
+            el.textContent = message;
+            el.classList.add('show');
+        }
+
+        function hideError(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        // Focus first input on load
+        window.addEventListener('load', () => {
+            pairingInputs[0].focus();
+        });
+    </script>
+</body>
+</html>
